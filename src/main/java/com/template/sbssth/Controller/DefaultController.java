@@ -1,5 +1,7 @@
 package com.template.sbssth.Controller;
 
+import com.template.sbssth.Dao.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class DefaultController {
     @Value("${Sources}")
     private String Sources;
 
+    @Autowired
+    CustomerRepository repository;
+
     @GetMapping("/")
     public String home1(Model model) {
 
@@ -28,6 +33,19 @@ public class DefaultController {
 
 
         return "/home";
+    }
+
+    @GetMapping("/findall")
+    public String findAll(Model model){
+
+        String result = "";
+        model.addAttribute("customers", repository.findAll());
+
+        /*for(Customer cust : repository.findAll()){
+            result += cust + "</br>";
+            System.out.println(cust);
+        }*/
+        return "/findall";
     }
 
     @GetMapping("/home")
