@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @PropertySource("classpath:global.properties")
 public class DefaultController {
@@ -27,9 +29,7 @@ public class DefaultController {
     @GetMapping("/")
     public String home1(Model model) {
 
-        model.addAttribute("msg", "<h1>END</h1><br /><h2>END</h2>");
-        model.addAttribute("msg", "<h1>END</h1><br /><h2>END</h2>");
-        model.addAttribute("msg", "<h1>END</h1><br /><h2>END</h2>");
+        model.addAttribute("customers", repository.findAll());
 
 
         return "/home";
@@ -39,6 +39,7 @@ public class DefaultController {
     public String findAll(Model model){
 
         String result = "";
+
         model.addAttribute("customers", repository.findAll());
 
         /*for(Customer cust : repository.findAll()){
@@ -69,7 +70,10 @@ public class DefaultController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, HttpServletRequest req) {
+
+        String referer = req.getHeader("Referer");
+        req.getSession().setAttribute("prevPage",referer);
 
         model.addAttribute("name", name);
         model.addAttribute("Sources", Sources);

@@ -1,10 +1,13 @@
 package com.template.sbssth.Model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 
+@Data
 @Entity
 @Table(name ="customer")
 public class Customer implements Serializable {
@@ -18,18 +21,27 @@ public class Customer implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "PASSWORD")
+    private String password;
+
     @Column(name = "email")
     private String email;
+
+    @Column(name = "M_AUTH")
+    private String mAuth;
 
     @Column(name = "created_date")
     private Date created_date;
 
-    public Customer(String name, String email, Date created_date) {
+    //private Collection<? extends GrantedAuthority> authorities;
+
+    /*public Customer(String name, String email, Date created_date) {
         this.name = name;
         this.email = email;
         this.created_date = created_date;
+
     }
-    public Customer() {}
+    public Customer() {}*/
 
     @Override
     public String toString() {
@@ -39,37 +51,5 @@ public class Customer implements Serializable {
                 ", email='" + email + '\'' +
                 ", created_date=" + created_date +
                 '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getCreated_date() {
-        return created_date;
-    }
-
-    public void setCreated_date(Date created_date) {
-        this.created_date = created_date;
     }
 }

@@ -21,10 +21,44 @@
         <h2>3. Visit <a th:href="@{/about}">Normal page</a></h2>
     </div>
 
+    <div id="app">
+        <p v-bind:id="idA">{{idA}}</p>
+        <p v-bind:class="classA">{{classA}}</p>
+
+        <span v-for="customer in customers">
+            <ul>
+                <li>{{customer.email}}</li>
+            </ul>
+
+        </span>
+
+    </div>
+
 </div>
 <!-- /.container -->
 
 <div th:replace="fragments/footer :: footer"/>
+
+
+<script th:inline="javascript">
+    var customer = [[${customers}]];
+    console.log(customer);
+
+    new Vue({
+        el: '#app',
+        data: {
+            idA: 10,
+            classA: 'container',
+            customers: customer
+        }
+    });
+
+</script>
+<script>
+
+
+
+</script>
 
 </body>
 </html>
