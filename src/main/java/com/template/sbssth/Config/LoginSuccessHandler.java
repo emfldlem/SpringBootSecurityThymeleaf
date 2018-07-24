@@ -25,17 +25,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             if(redirectUrl != null) {
                 session.removeAttribute("prevPage");
                 getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-
             }
             else {
                 super.onAuthenticationSuccess(request, response, authentication);
-
             }
-
         }
         else {
             super.onAuthenticationSuccess(request,response,authentication);
         }
-
     }
 }
