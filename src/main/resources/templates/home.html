@@ -13,18 +13,11 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Spring Boot Web Thymeleaf + Spring Security</h1>
-        <p th:utext="${msg}">message.</p>
-
-        <h2>1. Visit <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>
-        <h2>2. Visit <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>
-        <h2>3. Visit <a th:href="@{/about}">Normal page</a></h2>
+        <h1>Project1 Main 화면 </h1>
     </div>
 
+    <!--vue 연동 부분-->
     <div id="app">
-        <p v-bind:id="idA">{{idA}}</p>
-        <p v-bind:class="classA">{{classA}}</p>
-
         <span v-for="customer in customers">
             <ul>
                 <li>{{customer.email}}</li>

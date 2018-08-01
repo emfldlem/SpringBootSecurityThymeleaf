@@ -9,3 +9,20 @@ h2{
 footer{
     margin-top:60px;
 }
+
+th {
+	border: darkgray 1px solid;
+}
+
+td {
+	border: darkgray 1px solid;
+}
+.tc {
+	text-align: center;
+}
+.tr {
+	text-align: right;
+}
+.tl {
+	text-align: left;
+}

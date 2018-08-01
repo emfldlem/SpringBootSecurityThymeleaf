@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <script th:src="@{/js/pagination.js}"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>보드 게시판 </h1>
+    </div>
+    <div>
+        <table style="border: 1px black solid">
+            <tr>
+                <td>
+                    <a href="/board/free">자유게시판</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <div id="app">
+            <user-table></user-table>
+        </div>
+
+
+        <template id="pagination">
+            <ul class="pagination">
+                <li v-for="i in maxPages">
+                    <a href="#" v-on:click="$emit('change', i)"> {{ i}} </a>
+                </li>
+            </ul>
+        </template>
+
+        <template id="user-table">
+            <div>
+                <pagination-control
+                        v-on:change="test"
+                        :current-page="page"
+                        :max-pages="dataPageLength">
+                </pagination-control>
+                <table>
+                    <thead>
+                    <tr>
+                        <th v-for="col in userCols" :key="col">{{ col }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="user in users" :key="user.id">
+                        <td>{{ user.boardDtId }}</td>
+                        <td>{{ user.boardSj }}</td>
+                        <td>{{ user.regUsr }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </template>
+    </div>
+
+</div>
+<!-- /.container -->
+<script th:inline="javascript">
+
+
+    /*pagination-control 이라는 컴포넌트를 만든다.*/
+    const pagination = Vue.component('pagination-control', {
+        template: '#pagination',
+        data() {
+            return {};
+        },
+        props: {
+            currentPage: {
+                default: 1,
+                required: true,
+            },
+            maxPages: {
+                type: Number,
+                default: 1,
+                required: true,
+            },
+        },
+    });
+
+    const userTable = Vue.component('user-table', {
+        template: '#user-table',
+        components: {'pagination-control': pagination},
+
+        data() {
+            return {
+                //baseUrl: 'https://reqres.in/api/users',
+                baseUrl: '/restboard/freeboard2',
+                page: 0,
+                pageSize: 5,
+                dataPageLength: 1,
+                users: [],
+                userCols: ['Id', 'First Name', 'Last Name']
+            };
+        },
+        methods: {
+
+            getData() {
+                let vm = this;
+                var dataParam = {
+                    'page': vm.page,
+                    'size': vm.pageSize,
+                    'sort': 'boardDtId,asc'
+
+                };
+                $.post(`${vm.baseUrl}`, dataParam, function (result) {
+                    vm.users = result.content;
+                    vm.dataPageLength = result.totalPages;
+                });
+                /*var url = `${vm.baseUrl}?page=${vm.page}&amp;size=${vm.pageSize}&amp;sort=boardDtId,asc`;
+                console.log(url);*/
+                /*fetch(`${vm.baseUrl}`, {cache: "no-store",
+                            method: "POST",
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body:JSON.stringify({a: 1, b: 'Textual content'})}).then(response => response.json())
+                    .then(json => {vm.users = json.content;
+                                   vm.dataPageLength = json.totalPages;}
+                    );*/
+                },
+            test(page) {
+                this.page = page-1;
+            },
+        },
+        watch: {
+            page: {
+                immediate: true,
+                handler(newVal, oldVal) {
+                    this.getData();
+                },
+            },
+        },
+    });
+
+    new Vue({
+        el: '#app',
+    });
+
+
+</script >
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

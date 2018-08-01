@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+    <script th:src="@{/js/pagination.js}"/>
+
+    <style>
+        #app {
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+
+        li {
+            display: inline-block;
+            border: 1px solid #D5D5D5;
+            box-sizing: border-box;
+            margin-left: -1px;
+
+        a {
+            padding: .5rem .75rem;
+            text-decoration: none;
+            position: relative;
+            display: block;
+        }
+        }
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border-top: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: .5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>자유 게시판 </h1>
+    </div>
+    <div>
+        <table style="border: 1px black solid">
+            <tr>
+                <td>
+                    <a href="/board/free">자유게시판</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="app" style="margin: 10px">
+        <table >
+            <colgroup>
+                <col width="10%" />
+                <col />
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="10%"/>
+            </colgroup>
+            <tr class="tc">
+                <th>번호</th>
+                <th>제목</th>
+                <th>등록자</th>
+                <th>등록일</th>
+                <th>조회수</th>
+            </tr>
+            <tr v-for="free in freeList">
+                <td class="tc">{{free.boardDtId}}</td>
+                <td>{{free.boardSj}}</td>
+                <td class="tc">{{free.regUsr}}</td>
+                <td class="tc">{{free.regDt}}</td>
+                <td class="tc">10</td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+<script th:inline="javascript">
+    var freeList = [[${freeList}]];
+    console.log(freeList.boardSj);
+
+
+    new Vue({
+        el: '#app',
+        data: {
+            freeList: freeList
+        }
+    });
+
+</script>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

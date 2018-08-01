@@ -30,10 +30,47 @@ public class DefaultController {
     public String home1(Model model) {
 
         model.addAttribute("customers", repository.findAll());
-
-
         return "/home";
     }
+
+
+    @GetMapping("/login")
+    public String login(Model model, HttpServletRequest req) {
+
+        String referer = req.getHeader("Referer");
+        req.getSession().setAttribute("prevPage",referer);
+
+        model.addAttribute("name", name);
+        model.addAttribute("Sources", Sources);
+
+        return "/login/login";
+    }
+
+
+    @GetMapping("/403")
+    public String error403() {
+        return "/error/403";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/findall")
     public String findAll(Model model){
@@ -69,22 +106,8 @@ public class DefaultController {
         return "/about";
     }
 
-    @GetMapping("/login")
-    public String login(Model model, HttpServletRequest req) {
-
-        String referer = req.getHeader("Referer");
-        req.getSession().setAttribute("prevPage",referer);
-
-        model.addAttribute("name", name);
-        model.addAttribute("Sources", Sources);
 
 
-        return "/login";
-    }
 
-    @GetMapping("/403")
-    public String error403() {
-        return "/error/403";
-    }
 
 }
